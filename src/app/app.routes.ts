@@ -44,7 +44,6 @@ export const routes: Routes = [
     title: 'FarMart | Orders',
     canActivate: [authGuard],
   },
-
   {
     path: 'contact',
     loadComponent: () =>
@@ -70,6 +69,15 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/forget/forget.component').then((m) => m.ForgetComponent),
     title: 'Forget Password',
+  },
+
+  {
+    path: 'changePassword',
+    loadComponent: () =>
+      import('./features/change-password/change-password.component').then(
+        (m) => m.ChangePasswordComponent,
+      ),
+    title: 'change Password',
   },
 
   {
