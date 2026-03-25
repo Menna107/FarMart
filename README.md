@@ -1,59 +1,33 @@
-# ECommerce
+# 🛒 FarMart - Modern E-commerce Platform
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.2.
+**FarMart** is a premium, high-performance e-commerce frontend built with the latest **Angular 21** features. It focuses on a "Minimalist Floating Glass" aesthetic, mobile-first responsiveness, and a seamless user experience.
 
-## Development server
+---
 
-To start a local development server, run:
+## ✨ Key Features
 
-```bash
-ng serve
-```
+* **Modern UI/UX**: minimalist design with pill-shaped components and glassmorphism effects.
+* **State Management**: Fully powered by **Angular Signals** for granular reactivity and performance.
+* **Authentication**: Secure Login/Register flow with JWT decoding and Route Guards.
+* **Profile Management**:
+    * Dynamic Profile Dashboard with tabbed navigation (Query Params support).
+    * Secure "Change Password" flow with auto-logout.
+    * Advanced Address Management (Add/Delete/View) via Modal system.
+* **Shopping Experience**:
+    * Real-time Cart & Wishlist management.
+    * Smooth Checkout process integrated with Stripe/Visa.
+    * Orders Tracking with expandable detail views.
+* **Interactive Feedback**: Integrated with **SweetAlert2** for confirmations and **Custom Toast Service** for notifications.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 🛠️ Tech Stack
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+| Technology | Usage |
+| :--- | :--- |
+| **Angular 21** | Core Framework (Signals, Control Flow, SSR) |
+| **TypeScript** | Logic & Type Safety |
+| **Tailwind CSS** | Styling & Responsive Layouts |
+| **FontAwesome** | Iconography |
+| **SweetAlert2** | Premium Modals & Alerts |
+| **JWT Decode** | Token handling & User Identity |
