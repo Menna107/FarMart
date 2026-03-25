@@ -1,0 +1,263 @@
+@if (userCart().length === 0) {
+  <!-- ^======================Empty Cart====================== -->
+  <section class="container px-8 py-24 bg-main-bg min-h-[75vh] flex items-center justify-center">
+    <div class="text-center max-w-lg">
+      <div class="relative flex justify-center mb-10">
+        <div
+          class="w-40 h-40 bg-brand/5 rounded-full flex items-center justify-center animate-pulse"
+        >
+          <i class="fa-solid fa-cart-shopping text-7xl text-brand/10"></i>
+        </div>
+
+        <div
+          class="absolute bottom-2 right-1/4 bg-white p-4 rounded-2xl shadow-xl border border-brand-border animate-bounce"
+        >
+          <i class="fa-solid fa-plus text-brand text-xl"></i>
+        </div>
+      </div>
+
+      <h2 class="text-4xl font-black text-text-main mb-4 tracking-tight">
+        Your Cart is <span class="text-brand">Feeling Lonely</span>
+      </h2>
+      <p class="text-text-muted text-lg mb-10 leading-relaxed">
+        Your shopping bag is currently empty. Don't let the best deals slip away! Explore our latest
+        arrivals and fill it with joy.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button
+          routerLink="/shop"
+          class="cursor-pointer w-full sm:w-auto px-10 py-4 bg-brand hover:bg-brandHover text-white font-black rounded-2xl transition-all active:scale-95 shadow-2xl shadow-brand/30 uppercase tracking-widest text-sm"
+        >
+          Go Shopping
+        </button>
+
+        <button
+          routerLink="/wishlist"
+          class="cursor-pointer w-full sm:w-auto px-10 py-4 bg-white border-2 border-brand-border text-text-main hover:bg-main-bg font-black rounded-2xl transition-all active:scale-95 uppercase tracking-widest text-sm"
+        >
+          Check Wishlist
+        </button>
+      </div>
+
+      <div class="mt-16 flex items-center justify-center gap-8 opacity-40 grayscale">
+        <i class="fa-brands fa-cc-visa text-3xl"></i>
+        <i class="fa-brands fa-cc-mastercard text-3xl"></i>
+        <i class="fa-brands fa-cc-paypal text-3xl"></i>
+        <i class="fa-brands fa-cc-apple-pay text-3xl"></i>
+      </div>
+    </div>
+  </section>
+} @else {
+  <!-- ^====================== Full Cart====================== -->
+  <section class="container px-8 py-6 bg-main-bg min-h-screen">
+    <!-- title -->
+    <div class="flex items-center gap-4 mb-4 border-b border-brand-border pb-8">
+      <div
+        class="w-14 h-14 bg-brand rounded-2xl flex items-center justify-center text-white shadow-lg shadow-brand/20"
+      >
+        <i class="fa-solid fa-cart-shopping text-2xl"></i>
+      </div>
+      <div>
+        <h1 class="text-2xl md:text-4xl font-black text-text-main uppercase tracking-tight">
+          Shopping <span class="text-brand">Cart</span>
+        </h1>
+        <p class="text-text-muted font-medium">
+          You have <span class="text-brand">{{ userCart().length }} items</span> in your container
+        </p>
+      </div>
+    </div>
+
+    <!-- cards -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div class="lg:col-span-2 space-y-2">
+        @for (product of userCart(); track product._id) {
+          <div
+            class="bg-card-bg p-4 rounded-2xl border bg-white border-brand-border flex flex-col md:flex-row items-center gap-6 hover:shadow-lg transition-all relative group"
+          >
+            <div class="flex flex-col items-center gap-3 shrink-0">
+              <div
+                class="w-32 h-32 bg-white rounded-2xl overflow-hidden border border-brand-border p-2 flex items-center justify-center"
+              >
+                <img
+                  [src]="product.product.imageCover"
+                  class="w-full h-full object-contain"
+                  [alt]="product.product.title"
+                />
+              </div>
+              @if (product.product.quantity > 0) {
+                <div
+                  class="flex items-center gap-1 bg-green-500 text-white px-3 py-1 rounded-full text-[10px] font-bold"
+                >
+                  <i class="fa-solid fa-check"></i>
+                  <span>In Stock</span>
+                </div>
+              }
+            </div>
+
+            <div class="flex-1 w-full">
+              <div class="flex flex-col md:flex-row justify-between items-start gap-2 mb-2">
+                <div>
+                  <h3
+                    [routerLink]="['/details', product.product._id]"
+                    class="cursor-pointer hover:text-brand font-black text-text-main text-xl leading-tight mb-1"
+                  >
+                    {{ product.product.title }}
+                  </h3>
+                  <div class="flex items-center gap-2 text-[11px] font-bold">
+                    <span class="bg-brand/10 text-brand px-2 py-0.5 rounded-md">{{
+                      product.product.category.name
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-5">
+                <span class="text-brand font-black text-xl">{{ product.price }} EGP</span>
+                <span class="text-text-muted text-xs ml-1 font-medium">per unit</span>
+              </div>
+
+              <div class="flex items-center justify-between mt-auto">
+                <div
+                  class="flex items-center bg-white border border-brand-border rounded-xl p-1 shadow-sm"
+                >
+                  <button
+                    (click)="updateQuantity(product.product._id, product.count - 1)"
+                    class="w-8 h-8 flex items-center justify-center text-text-muted hover:text-brand transition-colors cursor-pointer"
+                  >
+                    <i class="fa-solid fa-minus text-xs"></i>
+                  </button>
+
+                  <span class="w-10 text-center font-black text-text-main text-sm">{{
+                    product.count
+                  }}</span>
+
+                  <button
+                    (click)="updateQuantity(product.product._id, product.count + 1)"
+                    class="w-8 h-8 bg-brand text-white flex items-center justify-center rounded-lg shadow-md shadow-brand/20 transition-all cursor-pointer active:scale-90"
+                  >
+                    <i class="fa-solid fa-plus text-xs"></i>
+                  </button>
+                </div>
+
+                <div class="flex items-center gap-4">
+                  <div class="text-right">
+                    <p class="text-2xl font-black text-text-main leading-tight">
+                      {{ product.count * product.price }}
+                      <span class="text-xs text-text-muted">EGP</span>
+                    </p>
+                  </div>
+
+                  <button
+                    (click)="removeItem(product.product._id)"
+                    class="w-10 h-10 bg-red-50 text-red-500 border border-red-100 rounded-xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all cursor-pointer"
+                  >
+                    <i class="fa-solid fa-trash-can text-sm"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!--Order Summary (right part) -->
+      <div class="lg:col-span-1">
+        <div
+          class="bg-card-bg p-6 rounded-3xl border border-brand-border sticky top-24 shadow-2xl shadow-brand/5 overflow-hidden"
+        >
+          <div class="relative mb-8">
+            <h2 class="text-xl font-black text-text-main uppercase tracking-tighter">
+              Order <span class="text-brand">Summary</span>
+            </h2>
+          </div>
+
+          <div class="space-y-3 mb-5">
+            <div class="flex justify-between items-center">
+              <span class="text-text-muted text-sm font-bold uppercase tracking-wider"
+                >Subtotal</span
+              >
+              <span class="text-text-main font-black">
+                {{ totalCartPrice() }} <span class="text-[10px]">EGP</span>
+              </span>
+            </div>
+
+            <div class="flex justify-between items-center">
+              <span class="text-text-muted text-sm font-bold uppercase tracking-wider"
+                >Shipping</span
+              >
+              <span class="text-text-main font-black"
+                >{{ shippingPrice }} <span class="text-[10px]">EGP</span></span
+              >
+            </div>
+
+            <div class="flex justify-between items-center">
+              <span class="text-text-muted text-sm font-bold uppercase tracking-wider"
+                >Estimated Tax</span
+              >
+              <span class="text-text-main font-black"
+                >{{ taxPrice }} <span class="text-[10px]">EGP</span></span
+              >
+            </div>
+
+            <div class="border-t-2 border-dashed border-brand-border/50 my-6"></div>
+
+            <div class="flex justify-between items-end">
+              <div>
+                <span class="text-[10px] text-text-muted font-black uppercase leading-none"
+                  >Total Amount</span
+                >
+                <p class="text-3xl font-black text-brand leading-tight">
+                  {{ totalCartPrice() + taxPrice + shippingPrice }}
+                </p>
+              </div>
+              <span class="text-xs text-text-muted font-bold mb-1">EGP</span>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <p class="text-[10px] text-text-muted font-black uppercase mb-2 ml-1">
+              Have a promo code?
+            </p>
+            <div
+              class="flex gap-2 bg-main-bg p-1.5 border rounded-2xl transition-all"
+              [class.border-brand]="couponCode"
+              [class.border-slate-200]="!couponCode"
+            >
+              <input
+                type="text"
+                [(ngModel)]="couponCode"
+                placeholder="Enter Code"
+                class="flex-1 bg-transparent border-none px-3 py-2 text-xs font-bold placeholder:text-text-muted/50 focus:ring-0 outline-none shadow-none"
+              />
+              <button
+                (click)="applyCoupon()"
+                class="bg-text-main text-white px-5 rounded-xl font-bold text-2xs uppercase hover:bg-brand transition-all cursor-pointer shadow-md shadow-text-main/10 disabled:bg-slate-300 disabled:cursor-not-allowed flex items-center justify-center min-w-[80px]"
+              >
+                Apply
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <button
+              routerLink="/checkout"
+              class="group cursor-pointer w-full h-14 bg-brand hover:bg-brandHover text-white font-black rounded-2xl flex items-center justify-center gap-3 transition-all active:scale-95 shadow-xl shadow-brand/20 uppercase tracking-widest text-xs"
+            >
+              <span>Proceed to Checkout</span>
+              <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </button>
+
+            <button
+              routerLink="/shop"
+              class="cursor-pointer w-full py-3 text-center text-text-muted font-bold text-[11px] uppercase tracking-widest hover:text-brand transition-all flex items-center justify-center gap-2"
+            >
+              <i class="fa-solid fa-chevron-left text-[9px]"></i>
+              Back to Shopping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+}

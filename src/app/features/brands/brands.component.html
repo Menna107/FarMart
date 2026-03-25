@@ -1,0 +1,37 @@
+<!-- Brands -->
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 pt-10">
+  @for (brand of brandsList; track brand._id) {
+    <div
+      [routerLink]="['/products/brand', brand._id]"
+      class="group bg-white border border-slate-100 rounded-[2.5rem] p-5 flex flex-col items-center hover:shadow-2xl hover:shadow-emerald-900/5 hover:-translate-y-2 transition-all duration-500 cursor-pointer overflow-hidden"
+    >
+      <div
+        class="aspect-square w-full rounded-[2rem] bg-slate-50 group-hover:bg-emerald-50/50 flex items-center justify-center p-8 mb-6 border border-slate-100/50 group-hover:border-emerald-100/50 transition-colors duration-500"
+      >
+        <img
+          [src]="brand.image"
+          [alt]="brand.name"
+          class="max-w-[80%] h-auto object-contain grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+        />
+      </div>
+
+      <div class="text-center">
+        <h3
+          class="text-lg font-black text-slate-800 tracking-tight group-hover:text-brand transition-colors"
+        >
+          {{ brand.name }}
+        </h3>
+
+        <div
+          [routerLink]="['/products/brand', brand._id]"
+          class="mt-2 flex items-center justify-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-400 group-hover:text-brand transition-all"
+        >
+          <span>View Collection</span>
+          <i
+            class="fa-solid fa-chevron-right text-[8px] transform group-hover:translate-x-1 transition-transform"
+          ></i>
+        </div>
+      </div>
+    </div>
+  }
+</div>

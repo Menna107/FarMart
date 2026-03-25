@@ -1,0 +1,375 @@
+<section class="py-8 bg-main-bg min-h-screen text-text-main font-sans">
+  <div class="container mx-auto px-4 md:px-8">
+    <!-- top -->
+    <div class="flex items-center justify-between mb-6 border-b border-brand-border pb-4">
+      <div>
+        <!-- nav links -->
+        <nav
+          class="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4"
+        >
+          <a routerLink="/" class="cursor-pointer hover:text-brand transition-colors">Home</a>
+          <i class="fa-solid fa-chevron-right text-[7px]"></i>
+
+          <a routerLink="/cart" class="cursor-pointer hover:text-brand transition-colors">Cart</a>
+          <i class="fa-solid fa-chevron-right text-[7px]"></i>
+
+          <span class="text-slate-800"> Checkout </span>
+        </nav>
+
+        <!-- page title -->
+        <div class="flex w-full justify-between items-center">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 bg-brand text-white rounded-xl flex items-center justify-center shadow-lg shadow-brand/15"
+            >
+              <i class="fa-solid fa-file-invoice text-base"></i>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-black text-text-main tracking-tighter uppercase">
+              Complete Order
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div class="lg:col-span-8 space-y-6">
+        <!-- shipping form -->
+        <div
+          class="bg-white border border-brand-border rounded-[2rem] p-0 shadow-sm overflow-hidden"
+        >
+          <!-- shipping title -->
+          <div class="bg-brand text-white p-5 pb-8">
+            <div class="flex items-center gap-3 mb-1">
+              <i class="fa-solid fa-location-dot text-xl"></i>
+              <h3 class="text-xl font-black uppercase tracking-tighter">Shipping Address</h3>
+            </div>
+            <p class="text-white/80 text-xs font-medium ml-8">Where should we deliver?</p>
+          </div>
+
+          <div class="p-6 md:p-8 -mt-6 bg-white rounded-t-[1.5rem] relative z-10 space-y-6">
+            <div
+              class="flex items-center gap-3 bg-blue-50/50 border border-blue-100 p-3 rounded-xl text-blue-900"
+            >
+              <i class="fa-solid fa-circle-info text-blue-500 text-sm"></i>
+              <p class="text-[11px] font-bold">Please ensure your address is accurate.</p>
+            </div>
+
+            <form
+              [formGroup]="checkOut"
+              (ngSubmit)="submitForm()"
+              class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5"
+            >
+              <div
+                formGroupName="shippingAddress"
+                class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5"
+              >
+                <div class="md:col-span-2 space-y-2 relative">
+                  <label
+                    class="bg-white pb-3 text-[11px] font-black text-slate-400 uppercase tracking-widest"
+                  >
+                    City <span class="text-red-500">*</span>
+                  </label>
+                  <div class="relative">
+                    <i
+                      class="fa-solid fa-city absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"
+                    ></i>
+                    <input
+                      formControlName="city"
+                      type="text"
+                      placeholder="e.g. Cairo"
+                      class="w-full placeholder:text-gray-500 bg-white border-2 rounded-2xl pl-12 pr-4 py-4 text-xs font-bold focus:outline-none transition-all"
+                      [class.border-red-500]="
+                        checkOut.get('shippingAddress.city')?.errors &&
+                        checkOut.get('shippingAddress.city')?.touched
+                      "
+                      [class.border-slate-100]="
+                        !(
+                          checkOut.get('shippingAddress.city')?.errors &&
+                          checkOut.get('shippingAddress.city')?.touched
+                        )
+                      "
+                    />
+                  </div>
+
+                  @if (
+                    checkOut.get('shippingAddress.city')?.errors &&
+                    checkOut.get('shippingAddress.city')?.touched
+                  ) {
+                    <div
+                      class="mt-2 ml-2 text-[10px] font-bold text-red-500 flex items-center gap-1"
+                    >
+                      <i class="fa-solid fa-circle-exclamation"></i>
+                      <span>City name is required (min 2 characters)</span>
+                    </div>
+                  }
+                </div>
+
+                <div class="md:col-span-2 space-y-2 relative">
+                  <label
+                    class="bg-white pb-3 text-[11px] font-black text-slate-400 uppercase tracking-widest"
+                  >
+                    Phone <span class="text-red-500">*</span>
+                  </label>
+                  <div class="relative">
+                    <i
+                      class="fa-solid fa-phone absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"
+                    ></i>
+                    <input
+                      formControlName="phone"
+                      type="tel"
+                      placeholder="01xxxxxxxxx"
+                      class="w-full placeholder:text-gray-500 bg-white border-2 rounded-2xl pl-12 pr-4 py-4 text-xs font-bold focus:outline-none transition-all"
+                      [class.border-red-500]="
+                        checkOut.get('shippingAddress.phone')?.errors &&
+                        checkOut.get('shippingAddress.phone')?.touched
+                      "
+                      [class.border-slate-100]="
+                        !(
+                          checkOut.get('shippingAddress.phone')?.errors &&
+                          checkOut.get('shippingAddress.phone')?.touched
+                        )
+                      "
+                    />
+                  </div>
+
+                  @if (
+                    checkOut.get('shippingAddress.phone')?.errors &&
+                    checkOut.get('shippingAddress.phone')?.touched
+                  ) {
+                    <div
+                      class="mt-2 ml-2 text-[10px] font-bold text-red-500 flex items-center gap-1"
+                    >
+                      <i class="fa-solid fa-circle-exclamation"></i>
+                      <span>Enter a valid Egyptian phone number</span>
+                    </div>
+                  }
+                </div>
+
+                <div class="md:col-span-2 space-y-2 relative">
+                  <label
+                    class="bg-white pb-3 text-[11px] font-black text-slate-400 uppercase tracking-widest"
+                  >
+                    Address <span class="text-red-500">*</span>
+                  </label>
+                  <div class="relative">
+                    <i
+                      class="fa-solid fa-location-dot absolute left-5 top-5 text-slate-400 text-xs"
+                    ></i>
+                    <textarea
+                      rows="2"
+                      formControlName="details"
+                      placeholder="Street, building, floor..."
+                      class="w-full placeholder:text-gray-500 bg-white border-2 rounded-2xl pl-12 pr-4 py-4 text-xs font-bold focus:outline-none transition-all resize-none"
+                      [class.border-red-500]="
+                        checkOut.get('shippingAddress.details')?.errors &&
+                        checkOut.get('shippingAddress.details')?.touched
+                      "
+                      [class.border-slate-100]="
+                        !(
+                          checkOut.get('shippingAddress.details')?.errors &&
+                          checkOut.get('shippingAddress.details')?.touched
+                        )
+                      "
+                    ></textarea>
+                  </div>
+
+                  @if (
+                    checkOut.get('shippingAddress.details')?.errors &&
+                    checkOut.get('shippingAddress.details')?.touched
+                  ) {
+                    <div
+                      class="mt-2 ml-2 text-[10px] font-bold text-red-500 flex items-center gap-1"
+                    >
+                      <i class="fa-solid fa-circle-exclamation"></i>
+                      <span>Address must be at least 10 characters</span>
+                    </div>
+                  }
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- patment method -->
+        <div
+          class="bg-white border border-brand-border rounded-[2rem] p-0 shadow-sm overflow-hidden"
+        >
+          <div class="bg-brand text-white p-5 pb-8">
+            <div class="flex items-center gap-3 mb-1">
+              <i class="fa-solid fa-credit-card text-xl"></i>
+              <h3 class="text-xl font-black uppercase tracking-tighter">Payment</h3>
+            </div>
+          </div>
+
+          <div class="p-6 md:p-8 -mt-6 bg-white rounded-t-[1.5rem] relative z-10 space-y-4">
+            <label
+              (click)="paymentFlag = 'cash'"
+              class="group relative flex items-center gap-4 p-4 border-2 rounded-2xl cursor-pointer transition-all"
+              [class.border-brand]="paymentFlag === 'cash'"
+              [class.bg-brand/5]="paymentFlag === 'cash'"
+              [class.border-slate-100]="paymentFlag !== 'cash'"
+            >
+              <div
+                class="w-13 h-13 rounded-xl flex items-center justify-center text-lg transition-colors"
+                [class]="
+                  paymentFlag === 'cash'
+                    ? 'bg-brand text-white shadow-brand/20'
+                    : 'bg-slate-100 text-slate-500 group-hover:text-brand'
+                "
+              >
+                <i class="fa-solid fa-money-bill-wave"></i>
+              </div>
+              <div class="flex flex-col gap-1">
+                <h3 class="text-sm font-black text-text-main uppercase tracking-tight">
+                  cash on Delivery
+                </h3>
+                <span class="text-xs text-gray-500 tracking-tight"
+                  >Pay when your order arrives at your doorstep
+                </span>
+              </div>
+
+              @if (paymentFlag === 'cash') {
+                <i
+                  class="fa-solid fa-circle-check text-brand text-xl absolute right-5 top-1/2 -translate-y-1/2 animate-in zoom-in duration-300"
+                ></i>
+              } @else {
+                <div
+                  class="w-5 h-5 border-2 border-slate-200 rounded-full absolute right-5 top-1/2 -translate-y-1/2 group-hover:border-brand/50"
+                ></div>
+              }
+            </label>
+
+            <label
+              (click)="paymentFlag = 'online'"
+              class="group relative flex items-center gap-4 p-4 border-2 rounded-2xl cursor-pointer transition-all"
+              [class.border-brand]="paymentFlag === 'online'"
+              [class.bg-brand/5]="paymentFlag === 'online'"
+              [class.border-slate-100]="paymentFlag !== 'online'"
+            >
+              <div
+                class="w-13 h-13 rounded-xl flex items-center justify-center text-lg transition-colors"
+                [class]="
+                  paymentFlag === 'online'
+                    ? 'bg-brand text-white shadow-brand/20'
+                    : 'bg-slate-100 text-slate-500 group-hover:text-brand'
+                "
+              >
+                <i class="fa-solid fa-credit-card"></i>
+              </div>
+              <div class="flex flex-col gap-1">
+                <h3 class="text-sm font-black text-text-main uppercase tracking-tight">
+                  Pay Online
+                </h3>
+                <span class="text-xs text-gray-500 tracking-tight">Secure payment via Stripe</span>
+              </div>
+
+              @if (paymentFlag === 'online') {
+                <i
+                  class="fa-solid fa-circle-check text-brand text-xl absolute right-5 top-1/2 -translate-y-1/2 animate-in zoom-in duration-300"
+                ></i>
+              } @else {
+                <div
+                  class="w-5 h-5 border-2 border-slate-200 rounded-full absolute right-5 top-1/2 -translate-y-1/2 group-hover:border-brand/50"
+                ></div>
+              }
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- summary -->
+      <div class="lg:col-span-4 sticky top-10">
+        <div class="rounded-[2rem] p-0 shadow-xl border border-brand-border overflow-hidden">
+          <div class="bg-brand p-5 pb-8 text-white">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-basket-shopping text-base"></i>
+                <h3 class="text-base font-black uppercase tracking-tighter">Summary</h3>
+              </div>
+              <span class="text-[9px] font-black bg-white/20 px-2 py-0.5 rounded-md uppercase">
+                {{ userCart().length }} Items
+              </span>
+            </div>
+          </div>
+
+          <div class="p-6 md:p-7 -mt-6 bg-white rounded-t-[1.5rem] relative z-10">
+            <div class="space-y-3 mb-6 max-h-[280px] overflow-y-auto pr-2 custom-scrollbar">
+              @for (item of userCart(); track item._id) {
+                <div
+                  class="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100 group transition-colors"
+                >
+                  <div
+                    class="w-12 h-12 bg-white rounded-lg p-1 flex-shrink-0 flex items-center justify-center shadow-sm"
+                  >
+                    <img
+                      [src]="item.product.imageCover"
+                      class="max-w-full max-h-full object-contain mix-blend-multiply"
+                      [alt]="item.product.title"
+                    />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <h4 class="text-[10px] font-black uppercase truncate text-text-main">
+                      {{ item.product.title }}
+                    </h4>
+                    <p class="text-[9px] font-bold text-brand uppercase mt-1">
+                      {{ item.price }} * {{ item.count }}
+                    </p>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-[11px] font-black tracking-tighter text-text-main">
+                      {{ item.price * item.count }}
+                    </span>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div
+              class="space-y-3 mb-6 pt-4 border-t border-slate-100 text-[10px] uppercase font-bold tracking-widest"
+            >
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Subtotal</span>
+                <span class="text-text-main font-black">{{ calculateSubtotal() }} EGP</span>
+              </div>
+              <div class="flex justify-between items-center text-emerald-600">
+                <span>Shipping</span>
+                <span class="bg-emerald-50 px-2 py-0.5 rounded text-[9px]">{{
+                  shippingPrice
+                }}</span>
+              </div>
+              <div class="flex justify-between items-center text-emerald-600">
+                <span>Tax</span>
+                <span class="bg-emerald-50 px-2 py-0.5 rounded text-[9px]">{{ taxPrice }}</span>
+              </div>
+            </div>
+
+            <div
+              class="border-t-2 border-dashed border-slate-100 pt-5 flex justify-between items-end mb-5"
+            >
+              <div>
+                <p class="text-[9px] font-black uppercase tracking-[0.3em] text-brand mb-1">
+                  Total to pay
+                </p>
+                <h4 class="text-4xl font-black tracking-tighter text-text-main">
+                  {{ calculateSubtotal() + taxPrice + shippingPrice }}
+                  <span class="text-xs">EGP</span>
+                </h4>
+              </div>
+            </div>
+
+            <button
+              (click)="submitForm()"
+              class="cursor-pointer group w-full bg-brand hover:bg-text-main text-white py-4 rounded-xl font-black text-[11px] uppercase tracking-[0.2em] transition-all shadow-lg shadow-brand/20 active:scale-95 flex items-center justify-center gap-2"
+            >
+              <span>Complete Purchase</span>
+              <i
+                class="fa-solid fa-arrow-right text-[10px] transition-transform group-hover:translate-x-1"
+              ></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

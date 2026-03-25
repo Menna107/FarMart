@@ -1,0 +1,70 @@
+<section class="container px-8 py-6 bg-main-bg min-h-screen">
+  <!-- title -->
+  <div
+    class="relative flex flex-col md:flex-row md:items-end justify-between mb-6 gap-6 border-b border-brand-border pb-6 overflow-hidden"
+  >
+    <div class="flex items-center gap-4 md:gap-5 relative z-10">
+      <div
+        class="w-12 h-12 md:w-16 md:h-16 bg-brand/10 rounded-2xl flex items-center justify-center text-brand animate-pulse flex-shrink-0"
+      >
+        <i class="fa-solid fa-heart text-xl md:text-3xl"></i>
+      </div>
+
+      <div>
+        <h1 class="text-2xl md:text-4xl font-black text-text-main mb-1 md:mb-2">
+          My <span class="text-brand">Wishlist</span>
+        </h1>
+        <p class="text-text-muted text-xs md:text-sm font-medium">
+          You have
+          <span class="font-bold text-text-main underline decoration-brand/30"
+            >{{ userWishList().length }} items</span
+          >
+          saved.
+        </p>
+      </div>
+    </div>
+
+    <button
+      (click)="clearAllWishList()"
+      class="relative z-10 flex items-center justify-center md:justify-start gap-2 px-0 md:px-4 py-2 text-xs md:text-sm font-bold text-red-500 hover:text-red-600 md:hover:bg-red-50 rounded-xl transition-all cursor-pointer group w-fit"
+    >
+      <i class="fa-solid fa-trash-can transition-transform group-hover:rotate-12"></i>
+      <span>Clear All Favorites</span>
+    </button>
+  </div>
+
+  <!-- Products -->
+  @if (userWishList().length === 0) {
+    <section class="container px-8 bg-main-bg min-h-[70vh] flex items-center justify-center">
+      <div class="text-center max-w-md">
+        <div class="relative inline-block mb-8">
+          <div
+            class="w-32 h-32 bg-brand/5 rounded-full flex items-center justify-center animate-pulse"
+          >
+            <i class="fa-regular fa-heart text-6xl text-brand/20"></i>
+          </div>
+          <i class="fa-solid fa-heart text-brand/40 absolute -top-2 -right-2 animate-bounce"></i>
+          <i class="fa-solid fa-heart text-brand/10 absolute bottom-4 -left-6 text-xl"></i>
+        </div>
+
+        <h2 class="text-3xl font-black text-text-main mb-4">
+          Your Wishlist is <span class="text-brand">Empty</span>
+        </h2>
+        <p class="text-text-muted leading-relaxed mb-10">
+          Looks like you haven't added anything to your wishlist yet. Start exploring our amazing
+          products and save your favorites!
+        </p>
+
+        <button
+          routerLink="/shop"
+          class="cursor-pointer inline-flex items-center gap-3 px-8 py-4 bg-brand hover:bg-brandHover text-white font-black rounded-2xl transition-all active:scale-95 shadow-xl shadow-brand/20 uppercase tracking-widest text-sm"
+        >
+          <i class="fa-solid fa-bag-shopping"></i>
+          Start Shopping Now
+        </button>
+      </div>
+    </section>
+  } @else {
+    <app-products [productsList]="userWishList()"></app-products>
+  }
+</section>

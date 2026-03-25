@@ -1,0 +1,100 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+  @if (productsList && productsList.length > 0) {
+    @for (product of productsList; track product._id) {
+      <div
+        class="cursor-pointer group bg-card-bg p-4 rounded-3xl border border-brand-border hover:border-brand/50 hover:shadow-xl transition-all duration-300"
+      >
+        <div class="h-60 bg-main-bg rounded-2xl mb-5 overflow-hidden relative">
+          <img
+            [src]="product.imageCover"
+            [alt]="product.title"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+
+          @if (product.priceAfterDiscount && product.priceAfterDiscount < product.price) {
+            <div
+              class="absolute top-4 left-4 px-3 py-1 bg-red-500 rounded-full text-2xs font-bold text-white shadow-sm"
+            >
+              -{{ product.price | calculateDiscount: product.priceAfterDiscount }}% OFF
+            </div>
+          }
+
+          <div class="absolute top-4 right-1 flex flex-col gap-2 transition-all duration-500 z-10">
+            <button
+              (click)="toggleWishlist(product._id)"
+              class="cursor-pointer w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md transition-all transform hover:scale-110"
+              [class.text-red-600]="wishlistIds().includes(product._id)"
+              [class.text-text-main]="!wishlistIds().includes(product._id)"
+            >
+              <i
+                class="fa-heart text-sm"
+                [class.fa-solid]="wishlistIds().includes(product._id)"
+                [class.fa-regular]="!wishlistIds().includes(product._id)"
+              ></i>
+            </button>
+
+            <button
+              [routerLink]="['/details', product._id]"
+              class="cursor-pointer w-10 h-10 bg-white text-text-main rounded-full flex items-center justify-center shadow-md transition-all transform hover:scale-110"
+            >
+              <i class="fa-regular fa-eye text-sm"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1 mb-2">
+          <div class="flex text-yellow-400 text-xs">
+            @for (star of [1, 2, 3, 4, 5]; track $index) {
+              @let currentRange = $index + 1;
+              @if (product.ratingsAverage >= currentRange) {
+                <i class="fa-solid fa-star"></i>
+              } @else if (
+                product.ratingsAverage > $index && product.ratingsAverage < currentRange
+              ) {
+                <i class="fa-solid fa-star-half-stroke"></i>
+              } @else {
+                <i class="fa-regular fa-star text-gray-300"></i>
+              }
+            }
+          </div>
+          <span class="text-xs font-bold text-text-muted ml-1">
+            {{ product.ratingsAverage }} ({{ product.ratingsQuantity }})
+          </span>
+        </div>
+
+        <p class="text-xs text-brand font-bold uppercase tracking-wider">
+          {{ product.category?.name }}
+        </p>
+
+        <h3 class="font-bold text-lg text-text-main mt-1 line-clamp-2">
+          {{ product.title }}
+        </h3>
+
+        <div class="flex justify-between items-center mt-5">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl font-extrabold text-text-heading">
+              ${{ product.priceAfterDiscount ? product.priceAfterDiscount : product.price }}
+            </span>
+
+            @if (product.priceAfterDiscount) {
+              <span class="text-md text-text-muted line-through"> ${{ product.price }} </span>
+            }
+          </div>
+
+          <button
+            (click)="toggleCart(product._id)"
+            class="cursor-pointer w-12 h-12 text-white rounded-full flex items-center justify-center transition-all active:scale-90"
+            [class.bg-green-600]="cartIds().includes(product._id)"
+            [class.bg-brand]="!cartIds().includes(product._id)"
+          >
+            @if (cartIds().includes(product._id)) {
+              <i class="fa-solid fa-check animate-bounce-short"></i>
+            } @else {
+              <i class="fa-solid fa-cart-plus text-sm"></i>
+            }
+          </button>
+        </div>
+      </div>
+    }
+  }
+</div>

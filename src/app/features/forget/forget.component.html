@@ -1,0 +1,401 @@
+<section class="min-h-screen bg-main-bg flex items-center justify-center p-0 md:p-6 lg:p-10">
+  <div
+    class="w-full max-w-[1100px] min-h-[700px] bg-white md:rounded-[3.5rem] shadow-[0_60px_120px_-20px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden flex flex-col md:flex-row"
+  >
+    <!-- ^======================Left Side======================= -->
+    <div
+      class="relative w-full md:w-[45%] bg-text-main overflow-hidden hidden md:flex flex-col p-14 justify-between"
+    >
+      <div
+        class="absolute inset-0 flex flex-col justify-between py-20 pointer-events-none select-none"
+      >
+        <span
+          class="text-[14rem] font-black text-white/[0.03] leading-none uppercase tracking-tighter -ml-12"
+          >Far</span
+        >
+        <span
+          class="text-[14rem] font-black text-white/[0.03] leading-none uppercase tracking-tighter self-end -mr-12"
+          >Mart</span
+        >
+      </div>
+
+      <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-brand/5 rounded-full blur-[120px]"
+      ></div>
+
+      <div class="relative z-10 mt-10">
+        <div
+          class="inline-flex items-center gap-3 px-4 py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full mb-12"
+        >
+          <span class="flex h-1.5 w-1.5 rounded-full bg-brand"></span>
+          <span class="text-[9px] font-black opacity-70 tracking-[0.4em] uppercase text-white"
+            >Security First</span
+          >
+        </div>
+
+        <h2
+          class="text-6xl lg:text-7xl font-black text-white leading-[0.9] tracking-tighter uppercase"
+        >
+          Don't <br />
+          <span class="text-brand">Worry.</span>
+        </h2>
+        <p
+          class="text-white/40 mt-6 max-w-[200px] text-xs font-medium leading-relaxed uppercase tracking-widest"
+        >
+          We'll help you get back to your fresh groceries in no time.
+        </p>
+      </div>
+
+      <div class="relative z-10">
+        <div class="flex items-center gap-4">
+          <div class="h-[1px] w-12 bg-brand"></div>
+          <span class="text-white/20 text-[10px] font-black uppercase tracking-[0.5em]"
+            >Password Recovery</span
+          >
+        </div>
+      </div>
+
+      <div
+        class="absolute inset-0 opacity-[0.02]"
+        style="
+          background-image: radial-gradient(white 1px, transparent 1px);
+          background-size: 40px 40px;
+        "
+      ></div>
+    </div>
+
+    <!-- ^======================Right Side======================= -->
+
+    @if (step() === 1 || step() === 2 || step() === 3) {
+      <div class="flex-1 bg-white p-8 md:p-16 lg:p-24 flex flex-col justify-center relative">
+        <!-- Back to login Button -->
+        <a
+          routerLink="/login"
+          class="absolute top-12 left-8 md:left-16 flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-brand transition-colors group"
+        >
+          <i
+            class="fa-solid fa-arrow-left-long group-hover:-translate-x-1 transition-transform"
+          ></i>
+          Back to Login
+        </a>
+
+        <!-- Step Title -->
+        <div class="mb-10">
+          <h3 class="text-4xl font-black text-text-main mb-3">Password Recovery</h3>
+          <p class="text-text-muted font-medium leading-relaxed">
+            @if (step() === 1) {
+              Step 1: Enter your registered email to receive reset instructions.
+            } @else if (step() === 2) {
+              Step 2: We've sent a 6-digit code to your email. Please enter it below.
+            } @else {
+              Step 3: Choose a strong password to protect your account.
+            }
+          </p>
+        </div>
+
+        <!-- Icons for steps -->
+        <div class="flex items-center justify-center mb-12 max-w-sm mx-auto w-full">
+          <div class="relative flex flex-col items-center">
+            <div
+              class="w-12 h-12 rounded-full flex items-center justify-center z-10 transition-all duration-500"
+              [class]="
+                step() >= 1
+                  ? 'bg-brand text-white shadow-[0_0_20px_rgba(34,197,94,0.3)] ring-4 ring-brand/10'
+                  : 'bg-slate-50 border border-slate-100 text-slate-400'
+              "
+            >
+              <i class="fa-regular fa-envelope text-sm"></i>
+            </div>
+          </div>
+
+          <div class="flex-1 h-[2px] bg-slate-100 mx-[-2px] relative">
+            <div
+              class="absolute inset-0 bg-brand transition-all duration-700 ease-in-out"
+              [style.width]="step() >= 2 ? '100%' : '0%'"
+            ></div>
+          </div>
+
+          <div class="relative flex flex-col items-center">
+            <div
+              class="w-12 h-12 rounded-full flex items-center justify-center z-10 transition-all duration-500"
+              [class]="
+                step() >= 2
+                  ? 'bg-brand text-white shadow-[0_0_20px_rgba(34,197,94,0.3)] ring-4 ring-brand/10'
+                  : 'bg-slate-50 border border-slate-100 text-slate-400'
+              "
+            >
+              <i class="fa-solid fa-key text-sm"></i>
+            </div>
+          </div>
+
+          <div class="flex-1 h-[2px] bg-slate-100 mx-[-2px] relative">
+            <div
+              class="absolute inset-0 bg-brand transition-all duration-700 ease-in-out"
+              [style.width]="step() >= 3 ? '100%' : '0%'"
+            ></div>
+          </div>
+
+          <div class="relative flex flex-col items-center">
+            <div
+              class="w-12 h-12 rounded-full flex items-center justify-center z-10 transition-all duration-500"
+              [class]="
+                step() >= 3
+                  ? 'bg-brand text-white shadow-[0_0_20px_rgba(34,197,94,0.3)] ring-4 ring-brand/10'
+                  : 'bg-slate-50 border border-slate-100 text-slate-400'
+              "
+            >
+              <i class="fa-solid fa-lock text-sm"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- ^============================ Step 1 (Enter Email) ============================-->
+        @if (step() === 1) {
+          <form (submit)="submitEmail($event)" class="space-y-8">
+            <div>
+              <label
+                class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1"
+                >Registered Email Address</label
+              >
+              <div class="relative">
+                <i
+                  class="fa-regular fa-envelope absolute left-5 top-1/2 -translate-y-1/2 group-focus-within:text-brand text-slate-400"
+                ></i>
+                <input
+                  [formControl]="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  class="w-full pl-12 pr-6 py-4 rounded-2xl border placeholder:text-slate-300 border-slate-100 bg-slate-50/50 focus:bg-white focus:border-brand focus:ring-4 focus:ring-brand/5 outline-none transition-all font-medium text-text-main"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="cursor-pointer group relative w-full py-5 bg-text-main text-white font-black rounded-2xl overflow-hidden transition-all hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)] active:scale-[0.97]"
+            >
+              <div
+                class="absolute inset-0 w-0 bg-brand transition-all duration-500 ease-out group-hover:w-full"
+              ></div>
+              <span class="relative z-10 flex items-center justify-center gap-2">
+                Send Reset Link <i class="fa-solid fa-paper-plane text-xs"></i>
+              </span>
+            </button>
+          </form>
+        }
+
+        <!-- ^============================ Step2 (Verify Code) ============================ -->
+        @else if (step() === 2) {
+          <form (submit)="submitCode($event)" class="space-y-8">
+            <div>
+              <label
+                class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-3 ml-1"
+              >
+                Verification Code
+              </label>
+              <div class="relative group">
+                <i
+                  class="fa-solid fa-shield-halved absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand transition-colors"
+                ></i>
+                <input
+                  [formControl]="code"
+                  type="text"
+                  placeholder="ُEnter the 6 digit code"
+                  class="w-full pl-12 pr-6 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:border-brand focus:ring-4 focus:ring-brand/5 outline-none transition-all font-medium text-text-main placeholder:text-slate-300"
+                />
+              </div>
+
+              <div class="mt-4 flex items-center justify-between px-1">
+                <p class="text-xs text-text-muted font-medium">Didn't receive the code?</p>
+                <button
+                  (click)="resendCode()"
+                  type="button"
+                  class="cursor-pointer text-xs font-black text-brand uppercase tracking-wider hover:underline underline-offset-4 transition-all"
+                >
+                  Resend Code
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="cursor-pointer group relative w-full py-5 bg-text-main text-white font-black rounded-2xl overflow-hidden transition-all hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)] active:scale-[0.97]"
+            >
+              <div
+                class="absolute inset-0 w-0 bg-brand transition-all duration-500 ease-out group-hover:w-full"
+              ></div>
+              <span
+                class="relative z-10 flex items-center justify-center gap-2 uppercase tracking-widest text-sm"
+              >
+                Verify Code
+              </span>
+            </button>
+          </form>
+        }
+
+        <!-- ^============================Step3 (New Password) ============================ -->
+        @else if (step() === 3) {
+          <form (submit)="submitPassword($event)" class="space-y-8">
+            <div class="space-y-5 relative">
+              <div>
+                <label
+                  class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-3 ml-1"
+                >
+                  New Secure Password
+                </label>
+                <div class="relative group">
+                  <i
+                    class="fa-solid fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand transition-colors"
+                  ></i>
+                  <input
+                    [formControl]="password"
+                    #pass
+                    type="password"
+                    placeholder="Enter new Password"
+                    class="w-full pl-12 pr-6 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:border-brand focus:ring-4 focus:ring-brand/5 outline-none transition-all font-medium text-text-main placeholder:text-slate-300"
+                  />
+                </div>
+
+                <span (click)="showPassword(pass)" class="absolute top-12 cursor-pointer inset-e-3"
+                  ><i
+                    [class]="pass.type === 'password' ? 'fa-eye-slash' : 'fa-eye'"
+                    class="fa-solid text-slate-400 text-md"
+                  ></i
+                ></span>
+
+                @if (password.errors && password.touched) {
+                  <div
+                    class="mt-2 ml-2 text-2xs font-bold text-red-500 tracking-tight flex items-start gap-1"
+                  >
+                    <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+                    <ul class="list-none p-0 m-0">
+                      @if (password.hasError('required')) {
+                        <li>Password is required</li>
+                      }
+                      @if (password.hasError('pattern')) {
+                        <li>Password is too weak (Min. 8 chars, 1 Upper, 1 Special)</li>
+                      }
+                    </ul>
+                  </div>
+                }
+              </div>
+
+              <div class="relative">
+                <label
+                  class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-3 ml-1"
+                >
+                  Confirm Password
+                </label>
+                <div class="relative group">
+                  <i
+                    class="fa-solid fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand transition-colors"
+                  ></i>
+                  <input
+                    [formControl]="confirmPassword"
+                    type="password"
+                    #rePass
+                    placeholder="Confirm your Password"
+                    class="w-full pl-12 pr-6 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:border-brand focus:ring-4 focus:ring-brand/5 outline-none transition-all font-medium text-text-main placeholder:text-slate-300"
+                  />
+                </div>
+
+                <span
+                  (click)="showPassword(rePass)"
+                  class="absolute top-12 cursor-pointer inset-e-3"
+                  ><i
+                    [class]="rePass.type === 'password' ? 'fa-eye-slash' : 'fa-eye'"
+                    class="fa-solid text-slate-400 text-md"
+                  ></i
+                ></span>
+
+                @if (confirmPassword.errors && confirmPassword.touched) {
+                  <div
+                    class="mt-2 ml-2 text-2xs font-bold text-red-500 tracking-tight flex items-start gap-1"
+                  >
+                    <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+                    <ul class="list-none p-0 m-0">
+                      @if (confirmPassword.hasError('required')) {
+                        <li>Confirm password is required</li>
+                      }
+                      @if (confirmPassword.hasError('mismatch')) {
+                        <li>Passwords do not match</li>
+                      }
+                    </ul>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="cursor-pointer group relative w-full py-5 bg-text-main text-white font-black rounded-2xl overflow-hidden transition-all hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)] active:scale-[0.97]"
+            >
+              <div
+                class="absolute inset-0 w-0 bg-brand transition-all duration-500 ease-out group-hover:w-full"
+              ></div>
+              <span
+                class="relative z-10 flex items-center justify-center gap-2 uppercase tracking-widest text-sm"
+              >
+                Update Password
+              </span>
+            </button>
+          </form>
+        }
+
+        <!-- contact support -->
+        <div class="mt-5 pt-2 border-t border-slate-50">
+          <p class="text-text-muted text-sm font-medium">
+            Still having trouble?
+            <a href="#" class="text-brand font-black hover:underline ml-1">Contact Support</a>
+          </p>
+        </div>
+      </div>
+    } @else if (step() === 4) {
+      <div class="flex-1 bg-white p-8 md:p-16 lg:p-24 flex flex-col justify-center relative">
+        <div
+          class="flex flex-col items-center text-center space-y-8 animate-in fade-in zoom-in duration-700"
+        >
+          <div class="relative">
+            <div class="w-28 h-28 bg-brand/10 rounded-full flex items-center justify-center">
+              <div
+                class="w-20 h-20 bg-brand text-white rounded-full flex items-center justify-center shadow-[0_20px_40px_rgba(34,197,94,0.3)]"
+              >
+                <i class="fa-solid fa-check text-4xl"></i>
+              </div>
+            </div>
+            <span
+              class="absolute -top-2 -right-2 w-6 h-6 bg-brand/20 rounded-full animate-ping"
+            ></span>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="text-5xl font-black text-text-main tracking-tight">Success!</h3>
+            <p class="text-text-muted font-bold text-sm uppercase tracking-widest">
+              Password Updated Successfully
+            </p>
+            <p class="text-slate-400 font-medium leading-relaxed max-w-[320px] mx-auto pt-2">
+              Your account is now secure. Use your new password to access your FarMart account.
+            </p>
+          </div>
+
+          <button
+            routerLink="/login"
+            class="cursor-pointer group relative w-full max-w-[300px] py-6 bg-text-main text-white font-black rounded-2xl overflow-hidden shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)] transition-all hover:shadow-brand/20 hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <div
+              class="absolute inset-0 w-0 bg-brand transition-all duration-500 ease-out group-hover:w-full"
+            ></div>
+            <span
+              class="relative z-10 flex items-center justify-center gap-3 uppercase tracking-[0.2em] text-xs"
+            >
+              Sign In Now
+              <i
+                class="fa-solid fa-arrow-right-long group-hover:translate-x-1 transition-transform"
+              ></i>
+            </span>
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</section>

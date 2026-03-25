@@ -1,0 +1,222 @@
+<section class="min-h-screen bg-main-bg flex items-center justify-center p-0 md:p-6 lg:p-10">
+  <div
+    class="w-full max-w-[1100px] min-h-[700px] bg-white md:rounded-[3.5rem] shadow-[0_60px_120px_-20px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden flex flex-col md:flex-row"
+  >
+    <div
+      class="relative w-full md:w-[45%] bg-text-main overflow-hidden hidden md:flex flex-col p-14 justify-between"
+    >
+      <div
+        class="absolute inset-0 flex flex-col justify-between py-20 pointer-events-none select-none"
+      >
+        <span
+          class="text-[14rem] font-black text-white/[0.03] leading-none uppercase tracking-tighter -ml-12"
+        >
+          Far
+        </span>
+
+        <span
+          class="text-[14rem] font-black text-white/[0.03] leading-none uppercase tracking-tighter self-end -mr-12"
+        >
+          Mart
+        </span>
+      </div>
+
+      <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-brand/5 rounded-full blur-[120px]"
+      ></div>
+
+      <div class="relative z-10 mt-10">
+        <div
+          class="inline-flex items-center gap-3 px-4 py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full mb-12"
+        >
+          <span class="flex h-1.5 w-1.5 rounded-full bg-brand"></span>
+          <span class="text-[9px] font-black opacity-70 tracking-[0.4em] uppercase text-white"
+            >Join to Us</span
+          >
+        </div>
+
+        <h2 class="text-6xl lg:text-7xl font-black text-white leading-[0.9] tracking-tighter">
+          Your Gateway <br />
+          To <span class="text-brand">Freshness.</span>
+        </h2>
+        <p
+          class="text-white/40 mt-6 max-w-[200px] text-xs font-medium leading-relaxed uppercase tracking-widest"
+        >
+          Experience the finest organic selection.
+        </p>
+      </div>
+
+      <div class="relative z-10">
+        <div class="flex items-center gap-4">
+          <div class="h-[1px] w-12 bg-brand"></div>
+          <span class="text-white/20 text-[10px] font-black uppercase tracking-[0.5em]"
+            >2026 Collection</span
+          >
+        </div>
+      </div>
+
+      <div
+        class="absolute inset-0 opacity-[0.02]"
+        style="
+          background-image: radial-gradient(white 1px, transparent 1px);
+          background-size: 40px 40px;
+        "
+      ></div>
+    </div>
+
+    <!-- Form Part -->
+    <div class="flex-1 bg-white p-8 md:p-16 lg:p-20 flex flex-col justify-center">
+      <div class="mb-3">
+        <h3 class="text-4xl font-black text-text-main mb-3">Welcome Back</h3>
+        <p class="text-text-muted font-medium">Please enter your details to sign in.</p>
+      </div>
+
+      <form (ngSubmit)="submitForm()" [formGroup]="loginForm" class="space-y-5">
+        <!-- Connect with Social Media -->
+        <div class="relative py-2 flex items-center">
+          <div class="flex-grow border-t border-slate-100"></div>
+          <span class="px-4 text-2xs font-black text-slate-300 uppercase tracking-widest"
+            >Connect with</span
+          >
+          <div class="flex-grow border-t border-slate-100"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 pb-4">
+          <button
+            (click)="socialLoginNotAvailable('Google')"
+            type="button"
+            class="cursor-pointer flex items-center justify-center gap-3 py-2 border border-slate-100 rounded-2xl hover:bg-slate-50 hover:border-slate-200 transition-all font-bold text-sm text-text-main"
+          >
+            <img
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              class="w-5 h-5"
+              alt="google"
+            />
+            Google
+          </button>
+          <button
+            (click)="socialLoginNotAvailable('Facebook')"
+            type="button"
+            class="cursor-pointer flex items-center justify-center gap-3 py-4 border border-slate-100 rounded-2xl hover:bg-slate-50 hover:border-slate-200 transition-all font-bold text-sm text-text-main"
+          >
+            <i class="fa-brands fa-facebook text-xl"></i> Facebook
+          </button>
+        </div>
+
+        <!-- email  -->
+        <div>
+          <label class="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1"
+            >Email Address</label
+          >
+          <div class="relative">
+            <i
+              class="fa-regular fa-envelope absolute left-5 top-1/2 -translate-y-1/2 text-slate-400"
+            ></i>
+            <input
+              formControlName="email"
+              type="email"
+              placeholder="Enter your email"
+              [class.border-red-400]="
+                loginForm.get('email')?.errors && loginForm.get('email')?.touched
+              "
+              class="w-full pl-12 pr-6 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:border-brand focus:ring-4 placeholder:text-slate-400 focus:ring-brand/5 outline-none transition-all font-medium text-text-main"
+            />
+          </div>
+
+          <!-- error message -->
+          @if (loginForm.get('email')?.errors && loginForm.get('email')?.touched) {
+            <div
+              class="mt-2 ml-2 text-2xs font-bold text-red-500 tracking-tight flex items-start gap-1"
+            >
+              <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+
+              <ul class="list-none p-0 m-0">
+                @if (loginForm.get('email')?.hasError('required')) {
+                  <li>email is required</li>
+                }
+                @if (loginForm.get('email')?.hasError('email')) {
+                  <li>Please enter a valid email</li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+
+        <!-- password -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center px-1">
+            <label class="block text-xs font-black uppercase tracking-widest text-slate-500">
+              Password
+            </label>
+            <a
+              routerLink="/forget"
+              class="text-[10px] font-black uppercase tracking-widest text-brand cursor-pointer underline-offset-4 hover:underline"
+            >
+              Forgot Password?
+            </a>
+          </div>
+          <div class="relative group">
+            <i
+              class="fa-solid fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand transition-colors"
+            ></i>
+            <input
+              #password
+              formControlName="password"
+              type="password"
+              placeholder="Enter your password"
+              [class.border-red-400]="
+                loginForm.get('password')?.errors && loginForm.get('password')?.touched
+              "
+              class="w-full pl-12 pr-6 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:border-brand focus:ring-4 placeholder:text-slate-400 focus:ring-brand/5 outline-none transition-all font-medium text-text-main"
+            />
+            <span (click)="showPassword(password)" class="absolute top-5 cursor-pointer inset-e-2"
+              ><i
+                [class]="password.type === 'password' ? 'fa-eye-slash' : 'fa-eye'"
+                class="fa-solid text-slate-400 text-md"
+              ></i
+            ></span>
+          </div>
+
+          <!-- error message -->
+          @if (loginForm.get('password')?.errors && loginForm.get('password')?.touched) {
+            <div
+              class="mt-2 ml-2 text-2xs font-bold text-red-500 tracking-tight flex items-start gap-1"
+            >
+              <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+
+              <ul class="list-none p-0 m-0">
+                @if (loginForm.get('password')?.hasError('required')) {
+                  <li>password is required</li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+
+        <button
+          type="submit"
+          class="cursor-pointer group relative w-full py-5 bg-text-main text-white font-black rounded-2xl overflow-hidden transition-all hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)] active:scale-[0.97]"
+        >
+          <div
+            class="absolute inset-0 w-0 bg-brand transition-all duration-500 ease-out group-hover:w-full"
+          ></div>
+          <span class="relative z-10 flex items-center justify-center gap-2">
+            Sign In <i class="fa-solid fa-arrow-right text-sm"></i>
+          </span>
+        </button>
+      </form>
+
+      <div class="mt-7 text-center">
+        <p class="text-text-muted font-medium">
+          New to Far Mart?
+          <a
+            routerLink="/register"
+            class="inline-flex items-center gap-1 text-brand font-black hover:gap-2 transition-all"
+          >
+            Create account <i class="fa-solid fa-chevron-right text-[10px]"></i>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

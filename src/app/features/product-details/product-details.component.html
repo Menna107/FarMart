@@ -1,0 +1,474 @@
+<div class="bg-main-bg">
+  <section class="container max-w-7xl mx-auto px-6 py-5 min-h-screen">
+    <div class="flex items-center gap-4 mb-5 ml-2">
+      <a
+        (click)="location.back()"
+        class="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-500 hover:text-brand hover:border-brand hover:shadow-lg transition-all duration-300 cursor-pointer"
+      >
+        <i class="fa-solid fa-arrow-left text-sm"></i>
+      </a>
+      <p class="text-[13px] font-black uppercase tracking-[0.2em] text-slate-400">Back</p>
+    </div>
+
+    <div
+      class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 bg-card-bg p-5 md:p-8 rounded-3xl border border-brand-border shadow-2xl"
+    >
+      <div class="space-y-3">
+        <div
+          class="h-75 md:h-100 bg-white rounded-3xl overflow-hidden border border-brand-border p-4 flex items-center justify-center"
+        >
+          <img
+            [src]="selectedImage"
+            [alt]="productDetails.title"
+            class="max-w-full max-h-full object-contain"
+          />
+        </div>
+
+        <div class="grid grid-cols-4 gap-2 md:gap-4">
+          @for (image of productDetails.images; track $index) {
+            <div
+              (click)="changeImage(image)"
+              [class.border-brand]="selectedImage === image"
+              [class.border-transparent]="selectedImage !== image"
+              class="h-16 md:h-24 bg-white rounded-xl overflow-hidden border-2 p-1 cursor-pointer"
+            >
+              <img
+                [src]="image"
+                [alt]="productDetails.title"
+                class="w-full h-full object-contain"
+              />
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="flex flex-col">
+        <div class="flex items-center gap-2 mb-4">
+          <span
+            class="px-3 py-1 md:px-4 md:py-1.5 bg-brand/10 text-brand text-[10px] md:text-xs font-black rounded-full uppercase tracking-widest"
+          >
+            {{ productDetails.brand.name }}
+          </span>
+          <span class="text-brand-border">|</span>
+          <span class="text-text-muted text-xs md:text-sm font-bold uppercase">{{
+            productDetails.category.name
+          }}</span>
+        </div>
+
+        <h1 class="text-2xl md:text-4xl font-black text-text-main mb-3 md:mb-4 leading-tight">
+          {{ productDetails.title }}
+        </h1>
+
+        <div
+          class="flex items-center gap-3 md:gap-4 mb-4 md:mb-6 pb-4 md:pb-6 border-b border-brand-border"
+        >
+          <div class="flex text-yellow-400 gap-0.5">
+            @for (star of [1, 2, 3, 4, 5]; track $index) {
+              @let currentRange = $index + 1;
+
+              @if (productDetails.ratingsAverage >= currentRange) {
+                <i class="fa-solid fa-star text-xs md:text-sm"></i>
+              } @else if (
+                productDetails.ratingsAverage > $index &&
+                productDetails.ratingsAverage < currentRange
+              ) {
+                <i class="fa-solid fa-star-half-stroke text-xs md:text-sm"></i>
+              } @else {
+                <i class="fa-regular fa-star text-gray-300 text-xs md:text-sm"></i>
+              }
+            }
+          </div>
+
+          <span class="text-text-muted text-xs md:text-sm font-bold">
+            {{ productDetails.ratingsAverage }} ({{ productDetails.ratingsQuantity + ' Reviews' }})
+          </span>
+        </div>
+
+        <div class="mb-6 md:mb-8">
+          <div class="flex items-end gap-3 md:gap-4">
+            <span class="text-3xl md:text-5xl font-black text-brand tracking-tighter"
+              >${{ productDetails.price.toFixed(2) }}</span
+            >
+
+            <div class="flex flex-col">
+              @if (
+                productDetails.priceAfterDiscount &&
+                productDetails.priceAfterDiscount < productDetails.price
+              ) {
+                <div
+                  class="bg-red-500 text-white px-2 py-0.5 rounded text-[8px] md:text-[10px] font-bold uppercase mb-1 animate-pulse text-center"
+                >
+                  -{{
+                    productDetails.price | calculateDiscount: productDetails.priceAfterDiscount
+                  }}% OFF
+                </div>
+              }
+
+              @if (productDetails.priceAfterDiscount) {
+                <span class="text-lg md:text-xl text-text-muted line-through font-medium">
+                  ${{ productDetails.priceAfterDiscount }}</span
+                >
+              }
+            </div>
+          </div>
+
+          @if (productDetails.quantity > 0) {
+            <p class="text-text-muted text-[10px] md:text-xs mt-3 md:mt-4 flex items-center gap-2">
+              <i class="fa-solid fa-circle-check text-green-500"></i>
+              In Stock - Ready to ship
+            </p>
+          }
+        </div>
+
+        <div
+          class="mb-6 md:mb-8 bg-main-bg/40 p-4 md:p-5 rounded-3xl border border-dashed border-brand-border"
+        >
+          <h4
+            class="text-text-main font-black text-xs md:text-sm uppercase mb-2 md:mb-3 tracking-widest"
+          >
+            Product Description
+          </h4>
+          <p class="text-text-muted leading-relaxed text-xs md:text-sm">
+            {{ productDetails.description }}
+          </p>
+        </div>
+
+        <div class="mt-0 flex flex-col sm:flex-row gap-3 md:gap-4">
+          <button
+            (click)="toggleCart(productDetails._id)"
+            [class.bg-green-600]="cartIds().includes(productDetails._id)"
+            [class.hover:bg-green-500]="cartIds().includes(productDetails._id)"
+            [class.bg-brand]="!cartIds().includes(productDetails._id)"
+            class="cursor-pointer flex-[3] py-4 md:py-0 h-14 md:h-16 bg-brand hover:bg-brandHover text-white font-black rounded-2xl flex items-center justify-center gap-3 transition-all active:scale-95 shadow-xl shadow-brand/30 uppercase tracking-widest text-sm md:text-base"
+          >
+            @if (cartIds().includes(productDetails._id)) {
+              <i class="fa-solid fa-check animate-bounce-short"></i>
+              Product in Shopping Cart
+            } @else {
+              <i class="fa-solid fa-cart-plus text-lg md:text-xl"></i>
+              Add To Shopping Cart
+            }
+          </button>
+
+          <button
+            (click)="toggleWishlist(productDetails._id)"
+            [class.text-red-600]="wishlistIds().includes(productDetails._id)"
+            [class.text-text-main]="!wishlistIds().includes(productDetails._id)"
+            class="cursor-pointer flex-1 py-4 md:py-0 h-14 md:h-16 bg-white border-2 border-brand-border text-text-main hover:text-red-500 hover:border-red-500 rounded-2xl flex items-center justify-center transition-all group"
+          >
+            <i
+              class="fa-heart text-xl md:text-2xl group-hover:scale-125 transition-transform"
+              [class.fa-solid]="wishlistIds().includes(productDetails._id)"
+              [class.fa-regular]="!wishlistIds().includes(productDetails._id)"
+            ></i>
+          </button>
+        </div>
+
+        <div
+          class="mt-8 md:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 border-t border-brand-border pt-6 md:pt-8"
+        >
+          <div class="flex items-center gap-3 md:gap-4">
+            <div
+              class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand/5 flex items-center justify-center flex-shrink-0"
+            >
+              <i class="fa-solid fa-truck-fast text-brand text-sm md:text-base"></i>
+            </div>
+            <span
+              class="text-[10px] md:text-[11px] font-black text-text-main uppercase tracking-tighter"
+              >Free Express Delivery</span
+            >
+          </div>
+          <div class="flex items-center gap-3 md:gap-4">
+            <div
+              class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand/5 flex items-center justify-center flex-shrink-0"
+            >
+              <i class="fa-solid fa-shield-halved text-brand text-sm md:text-base"></i>
+            </div>
+            <span
+              class="text-[10px] md:text-[11px] font-black text-text-main uppercase tracking-tighter"
+              >Secure 2-Year Warranty</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews -->
+    <section class="container max-w-7xl mx-auto py-8 border-t border-brand-border">
+      <!-- write your own review -->
+      <div class="bg-white border border-brand-border rounded-[2.5rem] p-6 md:p-10 mb-5 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+          <div>
+            <h3 class="text-2xl font-black text-text-main tracking-tighter uppercase">
+              Community Feedback
+            </h3>
+            <p class="text-text-muted text-xs font-bold uppercase tracking-widest mt-1">
+              Share your thoughts with other shoppers
+            </p>
+          </div>
+
+          <div class="flex flex-col items-end">
+            <div
+              class="flex items-center gap-3 bg-main-bg px-5 py-3 rounded-2xl border border-brand-border"
+              [class.border-red-400]="rating.invalid && rating.touched"
+            >
+              <span class="text-2xs font-black text-text-main uppercase">Your Rating:</span>
+              <div class="cursor-pointer flex text-yellow-400 gap-1.5">
+                @for (star of [1, 2, 3, 4, 5]; track star) {
+                  <i
+                    (click)="setRating(star)"
+                    class="cursor-pointer hover:scale-125 transition-transform text-sm fa-star"
+                    [class.fa-solid]="rating.value >= star"
+                    [class.fa-regular]="rating.value < star || !rating.value"
+                  ></i>
+                }
+              </div>
+            </div>
+            @if (rating.invalid && rating.touched) {
+              <span
+                class="text-[9px] font-bold text-red-500 uppercase tracking-tighter mt-1 mr-2 animate-pulse"
+              >
+                <i class="fa-solid fa-circle-exclamation mr-1"></i> Please select a rating
+              </span>
+            }
+          </div>
+        </div>
+
+        <div class="relative group">
+          <textarea
+            [formControl]="review"
+            placeholder="Write your honest experience here..."
+            rows="3"
+            class="w-full bg-main-bg border rounded-3xl px-6 py-4 text-sm focus:border-brand focus:ring-4 focus:ring-brand/5 outline-none transition-all resize-none"
+            [class.border-red-400]="review.invalid && review.touched"
+            [class.border-brand-border]="!(review.invalid && review.touched)"
+          ></textarea>
+
+          @if (review.invalid && review.touched) {
+            <div
+              class="absolute -bottom-5 left-4 flex items-center gap-1 text-[9px] font-bold text-red-500 uppercase tracking-widest animate-in fade-in slide-in-from-top-1"
+            >
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <span>Review message is required</span>
+            </div>
+          }
+
+          <button
+            (click)="createReview(productDetails._id)"
+            class="cursor-pointer md:absolute md:right-3 md:bottom-3 mt-8 md:mt-0 bg-text-main text-white px-8 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-brand transition-all shadow-lg active:scale-95"
+          >
+            Post Review
+          </button>
+        </div>
+      </div>
+
+      <!-- all reviews -->
+      <div class="space-y-2">
+        @let displayItems = showAllReviews ? productReviews : productReviews.slice(0, 1);
+
+        @for (review of displayItems; track review._id) {
+          <div class="group bg-white border border-brand-border p-3 md:p-5 rounded-lg">
+            <div class="flex flex-col gap-2">
+              <!-- top (name + image + date) -->
+              <div class="flex justify-between items-center">
+                <!-- top (name + image) -->
+                <div class="flex items-center gap-2">
+                  <div
+                    class="w-12 h-12 rounded-full bg-brand/10 text-brand flex items-center justify-center font-black text-lg border border-brand/20 uppercase"
+                  >
+                    {{ review.user.name.slice(0, 2) }}
+                  </div>
+
+                  <div class="flex flex-wrap items-center gap-3">
+                    <h4 class="font-black text-text-main text-md leading-none whitespace-nowrap">
+                      {{ review.user.name }}
+                    </h4>
+
+                    @if (review.user.name === userName) {
+                      <div class="flex items-center gap-2">
+                        <button
+                          (click)="openEditModal(review)"
+                          class="cursor-pointer flex items-center gap-1.5 px-2 md:px-2.5 py-1 rounded-md bg-blue-50 text-blue-600 border border-blue-100 hover:bg-blue-600 hover:text-white transition-all duration-300 group"
+                          title="Edit Review"
+                        >
+                          <i class="fa-solid fa-pen-to-square text-[10px]"></i>
+                          <span
+                            class="hidden md:inline text-[9px] font-black uppercase tracking-wider"
+                            >Edit</span
+                          >
+                        </button>
+
+                        <button
+                          (click)="deleteReview(review._id)"
+                          class="cursor-pointer flex items-center gap-1.5 px-2 md:px-2.5 py-1 rounded-md bg-red-50 text-red-600 border border-red-100 hover:bg-red-600 hover:text-white transition-all duration-300 group"
+                          title="Delete Review"
+                        >
+                          <i class="fa-solid fa-trash-can text-[10px]"></i>
+                          <span
+                            class="hidden md:inline text-[9px] font-black uppercase tracking-wider"
+                            >Delete</span
+                          >
+                        </button>
+                      </div>
+                    }
+                  </div>
+                </div>
+
+                <!-- date + stars rating-->
+                <div class="flex flex-col gap-2 items-center">
+                  <!-- date -->
+                  <span
+                    class="text-2xs text-center font-bold text-slate-300 uppercase tracking-widest bg-main-bg px-3 py-1 rounded-full"
+                  >
+                    {{ review.createdAt | date: 'longDate' }}
+                  </span>
+
+                  <!-- stars rating -->
+                  <div class="flex items-center gap-3">
+                    <div class="flex text-yellow-400 gap-0.5">
+                      @for (star of [1, 2, 3, 4, 5]; track $index) {
+                        @let currentRange = $index + 1;
+
+                        @if (review.rating >= currentRange) {
+                          <i class="fa-solid fa-star text-xs md:text-sm"></i>
+                        } @else if (review.rating > $index && review.rating < currentRange) {
+                          <i class="fa-solid fa-star-half-stroke text-xs md:text-sm"></i>
+                        } @else {
+                          <i class="fa-regular fa-star text-gray-300 text-xs md:text-sm"></i>
+                        }
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- review content -->
+              <p class="text-text-muted text-md leading-relaxed font-medium px-3">
+                {{ review.review }}
+              </p>
+            </div>
+          </div>
+        } @empty {
+          <div class="text-center py-10">
+            <i class="fa-solid fa-comments-slash text-4xl text-slate-200 mb-4 block"></i>
+            <p class="text-slate-400 font-bold uppercase text-xs tracking-[0.2em]">
+              No reviews yet. Be the first to share!
+            </p>
+          </div>
+        }
+
+        @if (productReviews.length > 1) {
+          <div class="flex justify-center mt-5">
+            <button
+              (click)="toggleReviewsDisplay()"
+              class="group flex items-center gap-3 px-10 py-4 rounded-full border-2 border-brand-border font-black text-[10px] uppercase tracking-[0.2em] text-text-main hover:bg-text-main hover:text-white transition-all cursor-pointer shadow-xl shadow-slate-100"
+            >
+              {{ showAllReviews ? 'Show Less' : 'View All ' + productReviews.length + ' Reviews' }}
+              <i
+                class="fa-solid transition-transform duration-300"
+                [class.fa-chevron-down]="!showAllReviews"
+                [class.fa-chevron-up]="showAllReviews"
+                [class.group-hover:translate-y-1]="!showAllReviews"
+              ></i>
+            </button>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Similar products -->
+    <section class="bg-slate-50/50 py-4 border-y border-brand-border">
+      <div class="container max-w-7xl mx-auto">
+        <div class="flex items-end justify-between mb-5">
+          <div>
+            <h3 class="text-2xl font-black text-text-main uppercase tracking-tighter">
+              You May Also Like
+            </h3>
+            <p class="text-brand font-bold text-xs uppercase tracking-[0.3em]">
+              Similar Collections
+            </p>
+          </div>
+        </div>
+
+        <div class="flex overflow-x-auto gap-6 pb-8 no-scrollbar snap-x snap-mandatory">
+          @if (similarProducts.length >= 6) {
+            <app-products [productsList]="similarProducts.slice(0, 6)"></app-products>
+          } @else {
+            <app-products [productsList]="similarProducts"></app-products>
+          }
+        </div>
+      </div>
+    </section>
+  </section>
+</div>
+
+<!-- edit review modal -->
+@if (isEditModalOpen) {
+  <div
+    class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-300"
+  >
+    <div
+      class="bg-white w-full max-w-lg rounded-3xl p-8 shadow-2xl relative animate-in zoom-in duration-300"
+    >
+      <button
+        (click)="closeEditModal()"
+        class="cursor-pointer absolute right-6 top-6 text-slate-400 hover:text-black transition-colors"
+      >
+        <i class="fa-solid fa-xmark text-2xl"></i>
+      </button>
+
+      <h3 class="text-xl font-black uppercase tracking-widest mb-8 text-center text-text-main">
+        Edit Your Review
+      </h3>
+
+      <form [formGroup]="editForm" (ngSubmit)="updateReview()" class="space-y-6">
+        <div class="flex flex-col items-center gap-2">
+          <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest"
+            >Update Rating</span
+          >
+          <div class="flex gap-2">
+            @for (star of [1, 2, 3, 4, 5]; track $index) {
+              <i
+                (click)="setEditRating(star)"
+                class="cursor-pointer fa-star cursor-pointer text-2xl transition-transform hover:scale-110"
+                [class.fa-solid]="editForm.get('rating')?.value >= star"
+                [class.fa-regular]="editForm.get('rating')?.value < star"
+                [class.text-yellow-400]="editForm.get('rating')?.value >= star"
+                [class.text-slate-200]="editForm.get('rating')?.value < star"
+              ></i>
+            }
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2"
+            >Your Message</label
+          >
+          <textarea
+            formControlName="review"
+            rows="4"
+            placeholder="Write your thoughts..."
+            class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-5 text-sm font-medium focus:outline-none focus:border-brand focus:bg-white transition-all resize-none"
+          ></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 pt-4">
+          <button
+            type="button"
+            (click)="closeEditModal()"
+            class="cursor-pointer py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest border-2 border-slate-100 text-slate-400 hover:bg-slate-50 transition-all"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            [disabled]="editForm.invalid"
+            class="cursor-pointer py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest bg-black text-white hover:bg-brand shadow-lg shadow-slate-200 transition-all disabled:bg-slate-200 disabled:shadow-none"
+          >
+            Update Now
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

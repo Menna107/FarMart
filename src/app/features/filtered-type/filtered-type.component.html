@@ -1,0 +1,44 @@
+@if (type === 'brands' || type === 'categories' || type === 'subCategory') {
+  <main class="min-h-screen pb-24">
+    <!-- title -->
+    <section class="bg-white pt-7">
+      <div class="container px-6">
+        <nav
+          class="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4"
+        >
+          <a routerLink="/" class="cursor-pointer hover:text-brand transition-colors">Home</a>
+          <i class="fa-solid fa-chevron-right text-[7px]"></i>
+          @if (type === 'subCategory') {
+            <a
+              routerLink="/filteredType/categories"
+              class="cursor-pointer hover:text-brand transition-colors"
+              >Categories</a
+            >
+            <i class="fa-solid fa-chevron-right text-[7px]"></i>
+          } @else {
+            <span class="text-slate-800">{{ type }}</span>
+          }
+        </nav>
+        <h1 class="text-5xl font-black text-slate-900 tracking-tighter mb-2">
+          Premium <span class="text-brand text-stroke-sm">{{ type }}.</span>
+        </h1>
+        @if (type !== 'subCategory') {
+          <p class="text-slate-400 font-medium max-w-md leading-relaxed text-lg mb-4">
+            Shop from your favorite {{ type }}
+          </p>
+        }
+      </div>
+    </section>
+
+    <!-- Type List -->
+    <section class="container px-6">
+      @if (type === 'brands') {
+        <app-brands></app-brands>
+      } @else if (type === 'categories') {
+        <app-categories></app-categories>
+      }
+    </section>
+  </main>
+} @else {
+  <app-not-found></app-not-found>
+}
