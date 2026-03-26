@@ -54,8 +54,11 @@ export class ProfileComponent implements OnInit {
       }
     });
 
+    if (isPlatformBrowser(this.id)) {
+      this.getUserAddresses();
+    }
+
     this.getUserData();
-    this.getUserAddresses();
   }
 
   getUserData() {
