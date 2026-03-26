@@ -267,83 +267,78 @@
         @let displayItems = showAllReviews ? productReviews : productReviews.slice(0, 1);
 
         @for (review of displayItems; track review._id) {
-          <div class="group bg-white border border-brand-border p-3 md:p-5 rounded-lg">
-            <div class="flex flex-col gap-2">
-              <!-- top (name + image + date) -->
-              <div class="flex justify-between items-center">
-                <!-- top (name + image) -->
-                <div class="flex items-center gap-2">
-                  <div
-                    class="w-12 h-12 rounded-full bg-brand/10 text-brand flex items-center justify-center font-black text-lg border border-brand/20 uppercase"
-                  >
-                    {{ review.user.name.slice(0, 2) }}
-                  </div>
-
-                  <div class="flex flex-wrap items-center gap-3">
-                    <h4 class="font-black text-text-main text-md leading-none whitespace-nowrap">
-                      {{ review.user.name }}
-                    </h4>
-
-                    @if (review.user.name === userName) {
-                      <div class="flex items-center gap-2">
-                        <button
-                          (click)="openEditModal(review)"
-                          class="cursor-pointer flex items-center gap-1.5 px-2 md:px-2.5 py-1 rounded-md bg-blue-50 text-blue-600 border border-blue-100 hover:bg-blue-600 hover:text-white transition-all duration-300 group"
-                          title="Edit Review"
-                        >
-                          <i class="fa-solid fa-pen-to-square text-[10px]"></i>
-                          <span
-                            class="hidden md:inline text-[9px] font-black uppercase tracking-wider"
-                            >Edit</span
-                          >
-                        </button>
-
-                        <button
-                          (click)="deleteReview(review._id)"
-                          class="cursor-pointer flex items-center gap-1.5 px-2 md:px-2.5 py-1 rounded-md bg-red-50 text-red-600 border border-red-100 hover:bg-red-600 hover:text-white transition-all duration-300 group"
-                          title="Delete Review"
-                        >
-                          <i class="fa-solid fa-trash-can text-[10px]"></i>
-                          <span
-                            class="hidden md:inline text-[9px] font-black uppercase tracking-wider"
-                            >Delete</span
-                          >
-                        </button>
-                      </div>
-                    }
-                  </div>
+          <div
+            class="flex flex-col gap-4 p-4 bg-white border border-brand-border rounded-3xl shadow-sm hover:shadow-md transition-shadow overflow-hidden"
+          >
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-11 h-11 rounded-2xl bg-brand/10 text-brand flex items-center justify-center font-black text-base border border-brand/20 uppercase shrink-0"
+                >
+                  {{ review.user.name.slice(0, 2) }}
                 </div>
 
-                <!-- date + stars rating-->
-                <div class="flex flex-col gap-2 items-center">
-                  <!-- date -->
-                  <span
-                    class="text-2xs text-center font-bold text-slate-300 uppercase tracking-widest bg-main-bg px-3 py-1 rounded-full"
+                <div class="flex flex-col">
+                  <h4
+                    class="font-black text-text-main text-sm leading-tight truncate max-w-[120px] sm:max-w-none"
                   >
-                    {{ review.createdAt | date: 'longDate' }}
+                    {{ review.user.name }}
+                  </h4>
+                  <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+                    {{ review.createdAt | date: 'mediumDate' }}
                   </span>
-
-                  <!-- stars rating -->
-                  <div class="flex items-center gap-3">
-                    <div class="flex text-yellow-400 gap-0.5">
-                      @for (star of [1, 2, 3, 4, 5]; track $index) {
-                        @let currentRange = $index + 1;
-
-                        @if (review.rating >= currentRange) {
-                          <i class="fa-solid fa-star text-xs md:text-sm"></i>
-                        } @else if (review.rating > $index && review.rating < currentRange) {
-                          <i class="fa-solid fa-star-half-stroke text-xs md:text-sm"></i>
-                        } @else {
-                          <i class="fa-regular fa-star text-gray-300 text-xs md:text-sm"></i>
-                        }
-                      }
-                    </div>
-                  </div>
                 </div>
               </div>
 
-              <!-- review content -->
-              <p class="text-text-muted text-md leading-relaxed font-medium px-3">
+              @if (review.user.name === userName) {
+                <div
+                  class="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-100"
+                >
+                  <button
+                    (click)="openEditModal(review)"
+                    class="cursor-pointer p-2 text-blue-500 hover:bg-blue-500 hover:text-white rounded-lg transition-all active:scale-90"
+                  >
+                    <i class="fa-solid fa-pen-to-square text-xs"></i>
+                  </button>
+                  <div class="w-[1px] h-3 bg-slate-200"></div>
+                  <button
+                    (click)="deleteReview(review._id)"
+                    class="cursor-pointer p-2 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-all active:scale-90"
+                  >
+                    <i class="fa-solid fa-trash-can text-xs"></i>
+                  </button>
+                </div>
+              }
+            </div>
+
+            <div class="flex items-center gap-2 px-1">
+              <div class="flex text-yellow-400 gap-0.5">
+                @for (star of [1, 2, 3, 4, 5]; track $index) {
+                  @let currentRange = $index + 1;
+                  <i
+                    [class]="
+                      review.rating >= currentRange
+                        ? 'fa-solid fa-star'
+                        : review.rating > $index
+                          ? 'fa-solid fa-star-half-stroke'
+                          : 'fa-regular fa-star'
+                    "
+                    class="text-xs md:text-sm"
+                  ></i>
+                }
+              </div>
+              <span
+                class="text-[10px] font-black text-text-main/50 bg-slate-100 px-1.5 py-0.5 rounded-md"
+              >
+                {{ review.rating }}
+              </span>
+            </div>
+
+            <div class="relative">
+              <i
+                class="fa-solid fa-quote-left absolute -top-2 -left-1 text-slate-100 text-2xl -z-10"
+              ></i>
+              <p class="text-text-muted text-sm leading-relaxed font-medium px-1 break-words">
                 {{ review.review }}
               </p>
             </div>
