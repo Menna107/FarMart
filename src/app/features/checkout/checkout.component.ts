@@ -81,7 +81,7 @@ export class CheckoutComponent {
           if (isPlatformBrowser(this.platformId)) {
             const userId = res.user.id;
             localStorage.setItem('userId', userId);
-            window.open(res.session.url, '_self');
+            window.location.href = res.session.url;
           }
         }
       },
