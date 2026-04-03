@@ -13,9 +13,4 @@ import { NgxSpinnerComponent } from 'ngx-spinner';
 })
 export class App {
   protected readonly title = signal('eCommerce');
-  ngOnInit() {
-    if (window.location.pathname === '/allorders' && !window.location.hash) {
-      window.location.replace('/#/allorders');
-    }
-  }
 }
