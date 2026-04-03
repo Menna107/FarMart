@@ -72,7 +72,7 @@ export class CartService {
   createVisaOrder(cartId: string, data: object): Observable<any> {
     return this.httpClient
       .post(
-        `${environment.baseURL}/api/v1/orders/checkout-session/${cartId}?url=${environment.url}`,
+        `${environment.baseURL}/api/v1/orders/checkout-session/${cartId}?url=${window.location.origin}`,
         data,
       )
       .pipe(
