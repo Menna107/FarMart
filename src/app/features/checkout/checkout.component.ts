@@ -79,8 +79,6 @@ export class CheckoutComponent {
         console.log(res);
         if (res.status === 'success') {
           if (isPlatformBrowser(this.platformId)) {
-            const userId = res.user.id;
-            localStorage.setItem('userId', userId);
             window.location.href = res.session.url;
           }
         }
