@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { ToastComponent } from './shared/ui/toast/toast.component';
@@ -13,4 +13,10 @@ import { NgxSpinnerComponent } from 'ngx-spinner';
 })
 export class App {
   protected readonly title = signal('eCommerce');
+  protected readonly router = inject(Router);
+  ngOnInit() {
+    if (window.location.pathname === '/allorders') {
+      this.router.navigate(['/allorders']);
+    }
+  }
 }
