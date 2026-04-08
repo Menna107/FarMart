@@ -37,6 +37,55 @@
 
   <!-- orders -->
   <div class="space-y-6">
+    @if (ordersList().length === 0) {
+      <div
+        class="flex flex-col items-center justify-center py-15 px-6 bg-white rounded-[40px] border border-slate-50 relative overflow-hidden"
+      >
+        <div
+          class="absolute -top-10 -left-10 w-40 h-40 bg-slate-50 rounded-full blur-3xl opacity-50"
+        ></div>
+        <div
+          class="absolute -bottom-10 -right-10 w-40 h-40 bg-brand/5 rounded-full blur-3xl opacity-50"
+        ></div>
+
+        <div class="relative mb-8">
+          <div
+            class="absolute inset-0 bg-brand/10 rounded-full animate-pulse scale-150 blur-xl"
+          ></div>
+
+          <div
+            class="relative w-24 h-24 bg-gradient-to-br from-slate-50 to-slate-100 rounded-full flex items-center justify-center shadow-inner border border-white"
+          >
+            <i class="fa-solid fa-bag-shopping text-4xl text-slate-300"></i>
+
+            <span
+              class="absolute top-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm border border-slate-50 text-brand font-black text-sm"
+            >
+              ?
+            </span>
+          </div>
+        </div>
+
+        <div class="text-center max-w-sm">
+          <h3 class="text-2xl font-black text-slate-800 tracking-tight mb-3">No Orders Found!</h3>
+          <p class="text-slate-400 text-sm leading-relaxed font-medium">
+            Your shopping bag is waiting to be filled. Explore our latest collections and start your
+            journey today.
+          </p>
+        </div>
+
+        <button
+          routerLink="/shop"
+          class="cursor-pointer mt-4 group relative flex items-center gap-3 px-10 py-4 bg-brand text-white rounded-2xl text-sm font-black shadow-xl shadow-brand/20 hover:shadow-brand/40 hover:-translate-y-1 transition-all duration-300"
+        >
+          <i class="fa-solid fa-cart-shopping group-hover:animate-bounce"></i>
+          Start Shopping Now
+          <i
+            class="fa-solid fa-arrow-right text-[10px] opacity-50 group-hover:translate-x-1 transition-transform"
+          ></i>
+        </button>
+      </div>
+    }
     @for (order of ordersList(); track order._id) {
       <div
         class="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all relative group"
@@ -231,54 +280,6 @@
             </div>
           </div>
         }
-      </div>
-    } @empty {
-      <div
-        class="flex flex-col items-center justify-center py-15 px-6 bg-white rounded-[40px] border border-slate-50 relative overflow-hidden"
-      >
-        <div
-          class="absolute -top-10 -left-10 w-40 h-40 bg-slate-50 rounded-full blur-3xl opacity-50"
-        ></div>
-        <div
-          class="absolute -bottom-10 -right-10 w-40 h-40 bg-brand/5 rounded-full blur-3xl opacity-50"
-        ></div>
-
-        <div class="relative mb-8">
-          <div
-            class="absolute inset-0 bg-brand/10 rounded-full animate-pulse scale-150 blur-xl"
-          ></div>
-
-          <div
-            class="relative w-24 h-24 bg-gradient-to-br from-slate-50 to-slate-100 rounded-full flex items-center justify-center shadow-inner border border-white"
-          >
-            <i class="fa-solid fa-bag-shopping text-4xl text-slate-300"></i>
-
-            <span
-              class="absolute top-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm border border-slate-50 text-brand font-black text-sm"
-            >
-              ?
-            </span>
-          </div>
-        </div>
-
-        <div class="text-center max-w-sm">
-          <h3 class="text-2xl font-black text-slate-800 tracking-tight mb-3">No Orders Found!</h3>
-          <p class="text-slate-400 text-sm leading-relaxed font-medium">
-            Your shopping bag is waiting to be filled. Explore our latest collections and start your
-            journey today.
-          </p>
-        </div>
-
-        <button
-          routerLink="/shop"
-          class="cursor-pointer mt-4 group relative flex items-center gap-3 px-10 py-4 bg-brand text-white rounded-2xl text-sm font-black shadow-xl shadow-brand/20 hover:shadow-brand/40 hover:-translate-y-1 transition-all duration-300"
-        >
-          <i class="fa-solid fa-cart-shopping group-hover:animate-bounce"></i>
-          Start Shopping Now
-          <i
-            class="fa-solid fa-arrow-right text-[10px] opacity-50 group-hover:translate-x-1 transition-transform"
-          ></i>
-        </button>
       </div>
     }
   </div>
